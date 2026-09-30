@@ -1,9 +1,31 @@
+import { readFileSync, writeFileSync } from 'node:fs'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Ruta base del despliegue:
+// - En local y en la raiz de un dominio es '/'.
+// - En GitHub Pages el repo se sirve en /ReactPrueba/
+//   (por eso existe el script `build:pages` en package.json).
+const base = process.env.VITE_BASE_PATH || '/'
+
+// Los archivos de public/ se copian tal cual al build, por eso la pagina
+// 404 lleva el marcador __BASE__ y este plugin lo reemplaza por la ruta real.
+function pluginBaseEn404(rutaBase) {
+  return {
+    name: 'base-en-404',
+    apply: 'build',
+    closeBundle() {
+      const archivo = new URL('./dist/404.html', import.meta.url)
+      const html = readFileSync(archivo, 'utf-8')
+      writeFileSync(archivo, html.replaceAll('__BASE__', rutaBase))
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
+  base,
   plugins: [
     react(),
 
@@ -21,7 +43,8 @@ export default defineConfig({
       injectRegister: null,
       includeAssets: ['favicon.svg', 'icons.svg', 'apple-touch-icon.png'],
       manifest: {
-        id: '/',
+        // start_url y scope se calculan solos a partir de `base`,
+        // asi funcionan igual en local que en GitHub Pages.
         name: 'Progresivas Décimo - Registro',
         short_name: 'Progresivas',
         description:
@@ -30,8 +53,6 @@ export default defineConfig({
         background_color: '#ffffff',
         lang: 'es',
         display: 'standalone', // se abre como app, sin la barra del navegador
-        start_url: '/',
-        scope: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -62,5 +83,7 @@ export default defineConfig({
         enabled: true,
       },
     }),
+
+    pluginBaseEn404(base),
   ],
 })

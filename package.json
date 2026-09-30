@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "VITE_BASE_PATH=/ReactPrueba/ vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:pages": "VITE_BASE_PATH=/ReactPrueba/ vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

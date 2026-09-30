@@ -26,6 +26,30 @@ Para probar el modo offline en DevTools: pestaña **Application → Service Work
 
 También puedes probar la PWA en desarrollo con `npm run dev` (el service worker de desarrollo se genera en `dev-dist/`).
 
+### Desplegar en GitHub Pages
+
+El repo se publica en `https://idgs-802-23002441.github.io/ReactPrueba/`, por lo que el build necesita la ruta base `/ReactPrueba/`:
+
+```bash
+npm run build:pages      # build con base /ReactPrueba/
+npm run preview:pages    # probarlo en http://localhost:4173/ReactPrueba/
+```
+
+El contenido de `dist/` se sube a la rama `gh-pages`, que es la que sirve GitHub Pages:
+
+```bash
+rm -rf /tmp/gh-pages-deploy && mkdir -p /tmp/gh-pages-deploy
+cp -a dist/. /tmp/gh-pages-deploy/
+cd /tmp/gh-pages-deploy
+git init -q && git checkout -q -b gh-pages
+touch .nojekyll
+git add -A && git commit -q -m "Build para GitHub Pages"
+git remote add origin https://github.com/IDGS-802-23002441/ReactPrueba.git
+git push -f origin gh-pages
+```
+
+En GitHub: **Settings → Pages → Deploy from a branch → `gh-pages` / `(root)`**.
+
 ## Comandos
 
 | Comando | Descripción |
