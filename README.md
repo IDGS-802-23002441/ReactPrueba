@@ -28,24 +28,25 @@ También puedes probar la PWA en desarrollo con `npm run dev` (el service worker
 
 ### Desplegar en GitHub Pages
 
-El repo se publica en `https://idgs-802-23002441.github.io/ReactPrueba/`, por lo que el build necesita la ruta base `/ReactPrueba/`:
+El sitio está publicado con dominio personalizado en **https://react-deploy.vellumdigitall.online/**, así que el build usa la raíz `/`:
 
 ```bash
-npm run build:pages      # build con base /ReactPrueba/
-npm run preview:pages    # probarlo en http://localhost:4173/ReactPrueba/
+npm run build:pages      # build con base /
+npm run preview:pages    # probarlo en http://localhost:4173/
 ```
 
-El contenido de `dist/` se sube a la rama `gh-pages`, que es la que sirve GitHub Pages:
+Si algún día se quita el dominio personalizado, la app pasará a servirse en `https://idgs-802-23002441.github.io/ReactPrueba/` y el build debe hacerse con `VITE_BASE_PATH=/ReactPrueba/`.
+
+El contenido de `dist/` se sube a la rama `gh-pages` (conservando el archivo `CNAME` del dominio, que GitHub agregó solo):
 
 ```bash
-rm -rf /tmp/gh-pages-deploy && mkdir -p /tmp/gh-pages-deploy
-cp -a dist/. /tmp/gh-pages-deploy/
+rm -rf /tmp/gh-pages-deploy
+git clone -q --branch gh-pages --single-branch https://github.com/IDGS-802-23002441/ReactPrueba.git /tmp/gh-pages-deploy
 cd /tmp/gh-pages-deploy
-git init -q && git checkout -q -b gh-pages
-touch .nojekyll
+find . -mindepth 1 -maxdepth 1 ! -name .git ! -name CNAME ! -name .nojekyll -exec rm -rf {} +
+cp -a /ruta/del/proyecto/dist/. .
 git add -A && git commit -q -m "Build para GitHub Pages"
-git remote add origin https://github.com/IDGS-802-23002441/ReactPrueba.git
-git push -f origin gh-pages
+git push origin gh-pages
 ```
 
 En GitHub: **Settings → Pages → Deploy from a branch → `gh-pages` / `(root)`**.

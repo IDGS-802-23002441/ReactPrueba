@@ -4,9 +4,9 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // Ruta base del despliegue:
-// - En local y en la raiz de un dominio es '/'.
-// - En GitHub Pages el repo se sirve en /ReactPrueba/
-//   (por eso existe el script `build:pages` en package.json).
+// - Con dominio personalizado (o en la raiz de un dominio) es '/'.
+// - Sin dominio personalizado, GitHub Pages sirve el repo en /ReactPrueba/:
+//   en ese caso haz el build con VITE_BASE_PATH=/ReactPrueba/.
 const base = process.env.VITE_BASE_PATH || '/'
 
 // Los archivos de public/ se copian tal cual al build, por eso la pagina
