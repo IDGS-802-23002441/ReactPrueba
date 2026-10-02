@@ -45,10 +45,10 @@ export default defineConfig({
       manifest: {
         // start_url y scope se calculan solos a partir de `base`,
         // asi funcionan igual en local que en GitHub Pages.
-        name: 'Progresivas Décimo - Registro',
+        name: 'Progresivas Décimo - Halo',
         short_name: 'Progresivas',
         description:
-          'Aplicación de registro de datos y scoreboard de la clase de Progresivas Décimo, instalable y funciona offline',
+          'Módulo Halo (scoreboard de puntajes) de la clase de Progresivas Décimo, instalable y funciona offline',
         theme_color: '#863bff',
         background_color: '#ffffff',
         lang: 'es',

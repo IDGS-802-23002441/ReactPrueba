@@ -21,9 +21,9 @@ const elegirGamerpic = (id) => {
   return gamerpics[suma % gamerpics.length]
 }
 
-function TablaScore({ registros, onEliminar }) {
-  const ranking = registros
-    .filter((registro) => registro.puntaje !== undefined && registro.puntaje !== '')
+function TablaScore({ puntajes, onEliminar }) {
+  const ranking = puntajes
+    .filter((jugador) => jugador.puntaje !== undefined && jugador.puntaje !== '')
     .sort((a, b) => Number(b.puntaje) - Number(a.puntaje))
 
   return (
@@ -58,25 +58,25 @@ function TablaScore({ registros, onEliminar }) {
                 </TableCell>
               </TableRow>
             ) : (
-              ranking.map((registro, indice) => (
-                <TableRow key={registro.id} hover>
+              ranking.map((jugador, indice) => (
+                <TableRow key={jugador.id} hover>
                   <TableCell>{indice + 1}</TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
                       <Avatar
-                        src={elegirGamerpic(registro.id)}
-                        alt={`Gamerpic de ${registro.nombre}`}
+                        src={elegirGamerpic(jugador.id)}
+                        alt={`Gamerpic de ${jugador.nombre}`}
                         sx={{ width: 32, height: 32 }}
                       />
-                      <span>{registro.nombre}</span>
+                      <span>{jugador.nombre}</span>
                     </Stack>
                   </TableCell>
-                  <TableCell align="right">{registro.puntaje}</TableCell>
+                  <TableCell align="right">{jugador.puntaje}</TableCell>
                   <TableCell align="center">
                     <IconButton
                       size="small"
                       color="error"
-                      onClick={() => onEliminar(registro.id)}
+                      onClick={() => onEliminar(jugador.id)}
                       aria-label="Eliminar Puntaje"
                     >
                       <PersonRemoveIcon />

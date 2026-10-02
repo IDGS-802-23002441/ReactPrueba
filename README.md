@@ -1,13 +1,33 @@
-# Progresivas Décimo - Registro (PWA)
+# Progresivas Décimo - Módulo Halo (PWA)
 
-App de registro de datos y scoreboard, convertida en **Progressive Web App** con [`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/).
+App del **Módulo Halo** (scoreboard de puntajes de la clase), convertida en **Progressive Web App** con [`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/).
+
+## Estructura
+
+```text
+src/
+├── modules/                    # Módulos de la app (una carpeta por módulo)
+│   └── halo/                   # Módulo Halo (scoreboard)
+│       ├── ModuloHalo.jsx      # Orquesta el módulo: layout y composición
+│       ├── components/         # Piezas internas del módulo
+│       │   ├── FormularioScore.jsx
+│       │   └── TablaScore.jsx
+│       ├── assets/             # Gamerpics que solo usa este módulo
+│       └── index.js            # API pública del módulo (lo que importa App)
+├── components/                 # UI compartida por toda la app (Header, Footer, PWA, 404...)
+├── assets/                     # Recursos generales de la app
+├── App.jsx
+└── main.jsx
+```
+
+La regla es: si algo lo usa **toda** la app vive en `src/components/`; si es una **funcionalidad completa** vive en `src/modules/<módulo>/`, con su propio `index.js` como punto de entrada. Para agregar otro módulo se crea su carpeta en `modules/` y `App.jsx` solo importa ese `index.js`.
 
 ## PWA
 
 - `vite.config.js`: plugin `VitePWA` con `registerType: 'autoUpdate'` (genera el service worker y el `manifest.webmanifest`). El registro lo hace la app desde `PwaAviso.jsx` con `virtual:pwa-register/react` (`injectRegister: null`).
 - `src/components/PwaAviso.jsx`: registra el service worker y avisa cuando la app quedó lista para usarse sin conexión.
 - `src/components/InstalarApp.jsx`: botón **Instalar app** en el encabezado (evento `beforeinstallprompt`); en iPhone/iPad muestra las instrucciones de Safari.
-- `src/App.jsx`: guarda los registros en `localStorage`, así los datos siguen ahí al cerrar la app y sin conexión.
+- `src/App.jsx`: guarda los puntajes en `localStorage`, así los datos siguen ahí al cerrar la app y sin conexión.
 - `public/pwa-192x192.png`, `public/pwa-512x512.png` y `public/apple-touch-icon.png`: íconos de la app (el de 512 se usa también como `maskable`).
 - `public/404.html`: página 404 que sirve el hosting cuando la dirección no existe.
 - `src/components/Pagina404.jsx`: la página 404 dentro de la app; se muestra en cualquier ruta distinta de `/` (el service worker sirve la app en rutas desconocidas).

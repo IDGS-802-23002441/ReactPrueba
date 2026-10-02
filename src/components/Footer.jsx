@@ -16,7 +16,7 @@ function Footer() {
       }}
     >
       <Typography variant="body2" color="text.secondary">
-        {`Módulo de registros - ${anioActual} - Clase de alumnos`}
+        {`Módulo Halo - ${anioActual} - Clase de alumnos`}
       </Typography>
     </Box>
   )
